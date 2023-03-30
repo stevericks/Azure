@@ -1,0 +1,35 @@
+# Define variables
+$serverName = "vm-dev1-uks-fnp" # Replace with the name of the server you want to scan
+$outputFile = "C:\output.csv" # Replace with the path and filename for the output file
+
+# Create empty array to hold results
+$results = @()
+
+# Get software information
+$software = Get-WmiObject -Class Win32_Product -ComputerName $serverName | Select-Object Name, Version, Vendor
+$results += $software
+
+# Get OS information
+$os = Get-WmiObject -Class Win32_OperatingSystem -ComputerName $serverName | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture
+$results += $os
+
+# Get network information
+$network = Get-WmiObject -Class Win32_NetworkAdapterConfiguration -ComputerName $serverName | Select-Object Description, IPAddress, MACAddress
+$results += $network
+
+# Get roles and features information
+$roles = Get-WindowsFeature -ComputerName $serverName | Select-Object Name, Installed
+$results += $roles
+
+# Output results to CSV file
+$results | Export-Csv -Path $outputFile -NoTypeInformation
+
+# Format CSV file for Excel
+$excel = New-Object -ComObject Excel.Application
+$workbook = $excel.Workbooks.Open($outputFile)
+$worksheet = $workbook.Worksheets.Item(1)
+$range = $worksheet.UsedRange
+$range.EntireColumn.AutoFit() | Out-Null
+$workbook.Save()
+$workbook.Close()
+$excel.Quit()
