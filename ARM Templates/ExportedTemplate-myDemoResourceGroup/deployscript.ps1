@@ -1,0 +1,1 @@
+Install-WindowsFeature NET-Framework-Features

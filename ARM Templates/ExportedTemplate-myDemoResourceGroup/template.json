@@ -1,0 +1,91 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_myDemoVM_name": {
+            "defaultValue": "myDemoVM",
+            "type": "String"
+        },
+        "disks_myDemoVM_OsDisk_1_40be61ebf2c0493c8cd9ccbc3b8bd25f_externalid": {
+            "defaultValue": "/subscriptions/679eab35-726e-40cb-9a44-cdfefcfe5035/resourceGroups/myDemoResourceGroup/providers/Microsoft.Compute/disks/myDemoVM_OsDisk_1_40be61ebf2c0493c8cd9ccbc3b8bd25f",
+            "type": "String"
+        },
+        "disks_myDemoDataDisk_externalid": {
+            "defaultValue": "/subscriptions/679eab35-726e-40cb-9a44-cdfefcfe5035/resourceGroups/MYDEMORESOURCEGROUP/providers/Microsoft.Compute/disks/myDemoDataDisk",
+            "type": "String"
+        },
+        "networkInterfaces_myDemoVM_externalid": {
+            "defaultValue": "/subscriptions/679eab35-726e-40cb-9a44-cdfefcfe5035/resourceGroups/myDemoResourceGroup/providers/Microsoft.Network/networkInterfaces/myDemoVM",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2022-11-01",
+            "name": "[parameters('virtualMachines_myDemoVM_name')]",
+            "location": "uksouth",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_D2s_v3"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Windows",
+                        "name": "[concat(parameters('virtualMachines_myDemoVM_name'), '_OsDisk_1_40be61ebf2c0493c8cd9ccbc3b8bd25f')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "id": "[parameters('disks_myDemoVM_OsDisk_1_40be61ebf2c0493c8cd9ccbc3b8bd25f_externalid')]"
+                        },
+                        "deleteOption": "Detach"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "myDemoDataDisk",
+                            "createOption": "Attach",
+                            "caching": "None",
+                            "writeAcceleratorEnabled": false,
+                            "managedDisk": {
+                                "id": "[parameters('disks_myDemoDataDisk_externalid')]"
+                            },
+                            "deleteOption": "Detach",
+                            "toBeDetached": false
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_myDemoVM_name')]",
+                    "adminUsername": "azureadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true,
+                        "patchSettings": {
+                            "patchMode": "AutomaticByOS",
+                            "assessmentMode": "ImageDefault"
+                        },
+                        "enableVMAgentPlatformUpdates": false
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_myDemoVM_externalid')]"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

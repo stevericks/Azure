@@ -1,4 +1,4 @@
-$GitBasePath = 'C:\Users\john\OneDrive\projects\GIT\AzureMasterClass\Part11IaCandDevOps\Bicep'
+$GitBasePath = 'C:\Users\Steve\Documents\GitHub\Azure\Bicep'
 $RGName = 'RG-007007'
 
 New-AzResourceGroupDeployment -ResourceGroupName $RGName `
