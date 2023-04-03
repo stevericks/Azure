@@ -1,0 +1,48 @@
+connect-AzAccount
+
+Select-AZSubscription sub-fgh-hub
+
+Export-AzViz -ResourceGroup RG-DOMAINCONTROLLERS-UKS-HUB -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-domaincontrollers.svg" -show
+Export-AzViz -ResourceGroup rg-network-uks-hub -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-network.svg" -show
+Export-AzViz -ResourceGroup rg-fgh-uks-cp-firewall-mgmt -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-firewall.svg" -show
+Export-AzViz -ResourceGroup rg-private-dns -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-dns.svg" -show
+Export-AzViz -ResourceGroup rg-security-uks-hub -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-security.svg" -show
+Export-AzViz -ResourceGroup rg-sharedsvcs-uks-hub -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-sharedsvcs.svg" -show
+Export-AzViz -ResourceGroup rg-storage-uks-hub -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-storage.svg" -show
+Export-AzViz -ResourceGroup NetworkWatcherRG -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\hub-networkwatcher.svg" -show
+
+Select-AZSubscription sub-fgh-financier-prd
+
+Export-AzViz -ResourceGroup rg-database-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-database-uks-financier-prd.svg"
+Export-AzViz -ResourceGroup rg-database-uks-financier-prd-asr -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-database-uks-financier-prd-asr.svg"
+Export-AzViz -ResourceGroup rg-ftp-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-ftp-uks-financier-prd.svg"
+Export-AzViz -ResourceGroup rg-network-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-network-uks-financier-prd.svg"
+Export-AzViz -ResourceGroup rg-rds-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-rds-uks-financier-prd.svg"
+Export-AzViz -ResourceGroup rg-rti-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-rti-uks-financier-prd.svg"
+Export-AzViz -ResourceGroup rg-storage-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\rg-storage-uks-financier-prd.svg"
+
+Select-AZSubscription FGH Azure CSP
+
+Export-AzViz -ResourceGroup FGH_Networks_RG -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\FGH_Networks_RG.svg"
+Export-AzViz -ResourceGroup ExpressRouteRG -LabelVerbosity 2 -CategoryDepth 2 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\ExpressRouteRG.svg"
+
+
+Export-AzViz -ResourceGroup rg-network-uks-financier-prd,rg-database-uks-financier-prd-asr,rg-ftp-uks-financier-prd,rg-network-uks-financier-prd,rg-rds-uks-financier-prd,rg-rti-uks-financier-prd,rg-storage-uks-financier-prd -LabelVerbosity 2 -CategoryDepth 1 -Theme light -OutputFormat svg -OutputFilePath "c:\AzViz Output\sub-fgh-financier-prd.svg"
+
+
+
+
+
+
+
+
+
+
+FGH Azure CSP                    d88d7e30-caff-4da3-8404-ebaffbeadeec 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+Pay-As-You-Go                    d01e4b46-bb75-422b-b6f9-df3a65a32c2e 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-hub                      62cbe38a-a763-4fe2-8215-0e9ec6abb8df 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-financier-prd            5f1e88cf-d74a-4133-8b3c-138511e7d4e4 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-financier-non-prd        6c5040c5-88d5-4946-a7b9-1b82b5a52769 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-DR                       8c407242-6b8a-410c-9f13-e0e9c434f4e3 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-avd                      f3115036-6817-485b-8b0d-d07e9bd6ddc7 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
+sub-fgh-d365                     f598a569-8a94-4bc4-8d7a-952c0aff5cbb 59a654de-a35c-4cec-8e82-82da18d1548a Enabled
