@@ -108,44 +108,43 @@ resource myVirtualMachine 'Microsoft.Compute/virtualMachines@2022-11-01' = {
 }
 
 resource virtualMachineExtension 'Microsoft.Compute/virtualMachines/extensions@2021-03-01' = {
-    parent: myVirtualMachine
-    name: 'joindomain'
-        location: location
-        properties: {
-          publisher: 'Microsoft.Compute'
-          type: 'JsonADDomainExtension'
-          typeHandlerVersion: '1.3'
-          autoUpgradeMinorVersion: true
-          settings: {
-            name: 'ottouk.com'
-            ouPath: 'OU=Dev,OU=Financier,OU=Servers - Azure,DC=ottouk,DC=com'
-            user: 'ottouk.com\\${domainJoinUserName}'
-            restart: true
-            options: 3
-          }
-          protectedSettings: {
-            Password: domainJoinUserPassword
-          }
-        }
+  parent: myVirtualMachine
+  name: 'joindomainextension'
+  location: location
+  properties: {
+      publisher: 'Microsoft.Compute'
+      type: 'JsonADDomainExtension'
+      typeHandlerVersion: '1.3'
+      autoUpgradeMinorVersion: true
+      settings: {
+          name: 'ottouk.com'
+          ouPath: 'OU=Dev,OU=Financier,OU=Servers - Azure,DC=ottouk,DC=com'
+          user: 'ottouk.com\\${domainJoinUserName}'
+          restart: true
+          options: 3
       }
+      protectedSettings: {
+          Password: domainJoinUserPassword
+      }
+  }
+}
 
 resource customscriptextension 'Microsoft.Compute/virtualMachines/extensions@2022-03-01' = {
-        parent: myVirtualMachine
-        name: 'deploy'
-        location: location
-        properties: {
-          publisher: 'Microsoft.Compute'
-          type: 'CustomScriptExtension'
-          typeHandlerVersion: '1.10'
-          autoUpgradeMinorVersion: true
-          settings: {
-            fileUris: [
-            'https://raw.githubusercontent.com/stevericks/Scripts/main/DeployScript.ps1'
-            'https://raw.githubusercontent.com/stevericks/Scripts/main/InitializeDataDisk.ps1'
-            ]
-            commandToExecute: 'powershell -ExecutionPolicy Bypass -File DeployScript.ps1'
-          }
-        }
+  parent: myVirtualMachine
+  name: 'deployextension'
+  location: location
+  properties: {
+      publisher: 'Microsoft.Compute'
+      type: 'CustomScriptExtension'
+      typeHandlerVersion: '1.10'
+      autoUpgradeMinorVersion: true
+      settings: {
+          fileUris: [
+              'https://raw.githubusercontent.com/stevericks/Scripts/main/DeployScript.ps1'
+          ]
+          commandToExecute: 'powershell -ExecutionPolicy Bypass -File DeployScript.ps1'
       }
+  }
+}
 
 output myVmName string = myVirtualMachine.name
