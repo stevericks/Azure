@@ -1,0 +1,38 @@
+This will list all backups on a rsv
+
+Connect-AzAccount
+
+#set subscription first
+#this is the id of the financier non prod sub
+Set-AzContext -SubscriptionId "6c5040c5-88d5-4946-a7b9-1b82b5a52769"
+
+
+Get-AzRecoveryServicesBackupContainer -VaultId "/subscriptions/6c5040c5-88d5-4946-a7b9-1b82b5a52769/resourceGroups/rg-bcdr-uks-financier-non-prd/providers/Microsoft.RecoveryServices/vaults/rsv-fgh-lrsbackup-uks-financier-non-prd"
+
+Enter the container type AzureVM.
+
+PS C:\Windows\system32> Get-AzRecoveryServicesBackupContainer -VaultId "/subscriptions/6c5040c5-88d5-4946-a7b9-1b82b5a52769/resourceGroups/rg-bcdr-uks-financier-non-prd/providers/Microsoft.RecoveryServices/vaults/rsv-fgh-lrsbackup-uks-financier-non-prd"
+
+cmdlet Get-AzRecoveryServicesBackupContainer at command pipeline position 1
+Supply values for the following parameters:
+(Type !? for Help.)
+ContainerType: AzureVM
+
+FriendlyName                             ResourceGroupName                        Status               ContainerType
+------------                             -----------------                        ------               -------------
+vm-int1-uks-fnp                          rg-acpt-database-uks-financier-non-prd   Registered           AzureVM
+vm-sql2-uks-fnp                          rg-acpt-database-uks-financier-non-prd   Registered           AzureVM
+vm-sql3-uks-fnp                          rg-acpt-database-uks-financier-non-prd   Registered           AzureVM
+vm-sql5-uks-fnp                          RG-ACPT-DATABASE-UKS-FINANCIER-NON-PRD   Registered           AzureVM
+vm-ftp1-uks-fnp                          rg-acpt-ftp-uks-financier-non-prd        Registered           AzureVM
+vm-rdcb-uks-fnp                          rg-acpt-rds-uks-financier-non-prd        Registered           AzureVM
+vm-rds1-uks-fnp                          rg-acpt-rds-uks-financier-non-prd        Registered           AzureVM
+vm-rds2-uks-fnp                          rg-acpt-rds-uks-financier-non-prd        Registered           AzureVM
+vm-rdwa-uks-fnp                          rg-acpt-rds-uks-financier-non-prd        Registered           AzureVM
+vm-rti1-uks-fnp                          rg-acpt-rti-uks-financier-non-prd        Registered           AzureVM
+vm-rti2-uks-fnp                          rg-acpt-rti-uks-financier-non-prd        Registered           AzureVM
+vm-rti3-uks-fnp                          rg-acpt-rti-uks-financier-non-prd        Registered           AzureVM
+vm-dev1-uks-fnp                          rg-dev-uks-financier-non-prd             Registered           AzureVM
+vm-man1-uks-fnp                          rg-management-uks-financier-non-prd      Registered           AzureVM
+vm-man2-uks-fnp                          rg-management-uks-financier-non-prd      Registered           AzureVM
+vm-sql1-uks-fnp                          rg-mgmt-database-uks-financier-non-prd   Registered           AzureVM
