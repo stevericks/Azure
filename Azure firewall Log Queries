@@ -1,0 +1,30 @@
+AzureDiagnostics  
+| where ResourceType == "AZUREFIREWALLS"  
+| extend  
+    src_host =   ""  
+    ,dest_host =  "https://ics2wsa.ic3.com/"  
+    ,dest_port =  ""  
+| project TimeGenerated,Category,src_host,dest_host,dest_port,msg_s
+
+
+
+AzureDiagnostics
+| where Category == "AzureFirewallNetworkRule" or Category == "AzureFirewallApplicationRule"
+| parse msg_s with Protocol " request from " SourceIP " to " Target ". Action: " Action
+| project TimeGenerated, SourceIP, Target, Action, msg_s
+| where msg_s contains "ct.callcreditsecure.co.uk"
+
+
+
+AzureDiagnostics
+| where Category == "AzureFirewallApplicationRule"
+| where msg_s contains "callcredit"
+
+
+AzureDiagnostics  
+| where ResourceType == "AZUREFIREWALLS"  
+| extend  
+    src_host =   "10.22.1.4"  
+    ,dest_host =  ""  
+    ,dest_port =  ""  
+| project TimeGenerated,Category,src_host,dest_host,dest_port,msg_s  
