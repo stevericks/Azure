@@ -1,0 +1,87 @@
+# Install module if needed.
+# Install-Module -Name Az.DesktopVirtualization -Force
+
+#Connect to Azure
+Connect-AzAccount
+
+# Check Powershell Version - needs to be > 7
+# $PSVersionTable
+
+Select-AzSubscription -SubscriptionName 'NDT-EU-PMT-STG-WVD'
+
+# Change variables to suit.
+# variables
+    $PoolName = 'avd-test-pool2'
+    $ResourceGroupName = 'rg-ndt-neu-wvd-stg-01'
+    $HostPoolType = 'Pooled'
+    $LoadBalancerType = 'BreadthFirst'
+    $PreferredAppGroupType = 'Desktop'
+    $MaxSessionLimit = '5'
+    $Location = 'North Europe'
+    $WorkSpaceName = 'workspace-test2'
+    $AppGroupName = 'avd-test-pool-DAG2'
+    $ApplicationGroupType = 'Desktop'
+    $UserGroupname = 'SG-Team-ITAdmin'
+
+
+
+# Create HostPool
+$parameters = @{
+    Name = $PoolName
+    ResourceGroupName = $ResourceGroupName
+    HostPoolType = $HostPoolType
+    LoadBalancerType = $LoadBalancerType
+    PreferredAppGroupType = $PreferredAppGroupType
+    MaxSessionLimit = $MaxSessionLimit
+    Location = $Location
+}
+
+New-AzWvdHostPool @parameters
+
+# Create WorkSpace
+New-AzWvdWorkspace -Name $WorkSpaceName -Location $Location -ResourceGroupName $ResourceGroupName
+
+# Create Application Group
+# get the resource ID of the host pool you want to create an application group for and store it in a variable.
+$hostPoolArmPath = (Get-AzWvdHostPool -Name $PoolName -ResourceGroupName $ResourceGroupName).Id
+
+$parameters = @{
+    Name = $AppGroupName
+    ResourceGroupName = $ResourceGroupName
+    ApplicationGroupType = $ApplicationGroupType
+    HostPoolArmPath = $hostPoolArmPath
+    Location = $Location
+}
+
+New-AzWvdApplicationGroup @parameters
+
+# Add an application group to a workspace
+# Get the resource ID of the application group you want to add to the workspace
+$appGroupPath = (Get-AzWvdApplicationGroup -Name $AppGroupName -ResourceGroupName $ResourceGroupName).Id
+
+# Add the application group to the workspace
+Update-AzWvdWorkspace -Name $WorkSpaceName -ResourceGroupName $ResourceGroupName -ApplicationGroupReference $appGroupPath
+
+# Assign user group to an application group
+# Get the object ID of the user group you want to assign to the application group
+$userGroupId = (Get-AzADGroup -DisplayName $UserGroupName).Id
+
+# Assign users to the application group
+$parameters = @{
+    ObjectId = $userGroupId
+    ResourceName = $AppGroupName
+    ResourceGroupName = $ResourceGroupName
+    RoleDefinitionName = 'Desktop Virtualization User'
+    ResourceType = 'Microsoft.DesktopVirtualization/applicationGroups'
+}
+
+New-AzRoleAssignment @parameters
+
+#Generate a registration key
+$parameters = @{
+    HostPoolName = $HostPoolName
+    ResourceGroupName = $ResourceGroupName
+    ExpirationTime = $((Get-Date).ToUniversalTime().AddHours(24).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
+}
+
+New-AzWvdRegistrationInfo @parameters
